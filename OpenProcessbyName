@@ -17,7 +17,7 @@ int main(int, char *[])
 			{
 				HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
 
-				// Do stuff..
+				// Do stuff.. //Debugging ,hProcess is 0x00000094 seems correct 
 
 				CloseHandle(hProcess);
 			}
