@@ -13,7 +13,7 @@ int main(int, char *[])
 	{
 		while (Process32Next(snapshot, &entry) == TRUE)
 		{
-			if (_wcsicmp(entry.szExeFile, L"notepad.exe") == 0)
+			if (_wcsicmp(entry.szExeFile, L"notepad.exe") == 0) //Successfully found the notepad.exe while the ASCII version not
 			{
 				HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
 
