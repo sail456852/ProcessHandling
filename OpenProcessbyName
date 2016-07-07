@@ -29,3 +29,43 @@ int main(int, char *[])
 	return 0;
 }
 //Through debugging ,this one can successfully return hProcess when notepad is open , copied from Stackoverflow.com
+
+
+//**************************************************************************************************************************
+// Trying to put this snippet into a function 
+#include <cstdio>
+#include <windows.h>
+#include <tlhelp32.h>
+#include <tchar.h>
+
+HANDLE OpenHandle(TCHAR ProcessName[])  //Trying to put the OpenHandle 
+{
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
+	HANDLE hProcess = nullptr;
+
+	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+
+	if (Process32First(snapshot, &entry) == TRUE)
+	{
+		while (Process32Next(snapshot, &entry) == TRUE)
+		{
+		
+			if (_tcsicmp(entry.szExeFile, ProcessName) == 0) //The Generic version successfully found the notepad.exe
+
+			{
+				hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);			
+			}
+		}
+	}
+
+	CloseHandle(snapshot);
+	CloseHandle(hProcess);
+	return hProcess; //Even close the handle ,through debugging , the value is 0x00000088 ,seems correct
+	
+}
+
+int main()
+{
+	OpenHandle(TEXT("notepad.exe"));
+}
